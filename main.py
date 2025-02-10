@@ -9,7 +9,6 @@ import os
 firtsinitpath = "src/saves/user.json"
 
 if os.path.exists(firtsinitpath):
-    User()
-
-else:
     Home()
+else:
+    User()
