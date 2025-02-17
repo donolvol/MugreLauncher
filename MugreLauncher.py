@@ -1,7 +1,7 @@
 # Modules
 
 from forms.form_firstInit import User
-from forms.form_home_and_sidebar import Home
+from forms.form_master_design import masterDesign
 import os
 
 # Main
@@ -9,6 +9,6 @@ import os
 firtsinitpath = "src/saves/user.json"
 
 if os.path.exists(firtsinitpath):
-    Home()
+    masterDesign()
 else:
     User()
