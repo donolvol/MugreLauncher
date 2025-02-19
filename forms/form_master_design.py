@@ -1,6 +1,8 @@
 import tkinter as tk
 from tkinter import font
+from tkinter import ttk
 
+from src.functions.startmc import Start, Install
 import utils.util_img as util_img
 import utils.util_window as util_window
 
@@ -12,6 +14,7 @@ class masterDesign(tk.Tk):
         self.home = util_img.leer_imagen("./assets/img/home.png", (42, 42))
         self.installations = util_img.leer_imagen("./assets/img/installations.png", (42, 42))
         self.settingimg = util_img.leer_imagen("./assets/img/settingimg.png", (42, 42))
+        self.rosaimg = util_img.leer_imagen("./assets/img/LARO.png", (854, 480))
         self.icono = "./assets/launcher.ico"      
         self.config_window()
         self.panels()
@@ -49,7 +52,11 @@ class masterDesign(tk.Tk):
         ancho_menu = 128
         alto_menu = 128
         
-        self.sidebarhideButton = tk.Button(self.upbar, command=self.toggle_panel)
+        self.Laroimagen = tk.Label(self.body, image=self.rosaimg, width="1", height="1")
+        self.Laroimagen.pack(expand=tk.TRUE, fill=tk.BOTH)
+        
+        self.playButton = tk.Button(self.body)
+        self.sidebarhideButton = tk.Button(self.upbar)
         self.homeButton = tk.Button(self.sidebarwidgets)
         self.insButton = tk.Button(self.sidebarwidgets)
         self.settingButton = tk.Button(self.sidebarwidgets)
@@ -59,19 +66,23 @@ class masterDesign(tk.Tk):
         self.settingButtonmini = tk.Button(self.sidebarwidgetsmini)
 
         button_info = [
-            ("", self.menu, self.sidebarhideButton),
-            ("Inicio", self.home, self.homeButton),
-            ("Instalaciones", self.installations, self.insButton),
-            ("Configs", self.settingimg, self.settingButton),
+            ("Play", "", self.playButton, self.mcStart),
+            ("", self.menu, self.sidebarhideButton, self.toggle_panel),
+            ("Inicio", self.home, self.homeButton, self.homePanel),
+            ("Instalaciones", self.installations, self.insButton, ""),
+            ("Configs", self.settingimg, self.settingButton, ""),
 
-            ("", self.home, self.homeButtonmini),
-            ("", self.installations, self.insButtonmini),
-            ("", self.settingimg, self.settingButtonmini)
+            ("", self.home, self.homeButtonmini, ""),
+            ("", self.installations, self.insButtonmini, ""),
+            ("", self.settingimg, self.settingButtonmini, "")
         ]
 
-        for text, icon, button in button_info:
-            self.config_button_menu(button, text, icon, ancho_menu, alto_menu)
+        for text, icon, button, commandButton in button_info:
+            self.config_button_menu(button, text, icon, commandButton, ancho_menu, alto_menu)
 
+    def mcStart(self):
+        Start()
+    
     def bind_hover_event(self, button):
         button.bind("<Enter>", lambda event: self.on_enter(event, button))
         button.bind("<Leave>", lambda event: self.on_leave(event, button))
@@ -82,9 +93,10 @@ class masterDesign(tk.Tk):
     def on_leave(self, event, button):
         button.config(bg="WHITE")
 
-    def config_button_menu(self, button, text, icon, ancho_menu, alto_menu):
-        button.config(anchor="w",text=f"{text}", bd=0, font=("Minecraft Dungeons Regular",9))
+    def config_button_menu(self, button, text, icon, commandButton, ancho_menu, alto_menu):
+        button.config(anchor="w",text=f"{text}", bd=0, font=("Minecraft Dungeons Regular",9), command=commandButton)
         button.config(anchor="w",image=f"{icon}", compound=tk.LEFT, padx=5, pady=5)
+        
         if button == self.settingButton:    
             button.pack(anchor="w", side=tk.BOTTOM, fill=tk.BOTH, pady=10, padx=20)
         elif button == self.settingButtonmini:
@@ -96,3 +108,9 @@ class masterDesign(tk.Tk):
 
         self.bind_hover_event(button)
 
+    def homePanel(self):
+        self.limpiar_panel(self.body)
+
+    def limpiar_panel(self, panel):
+        for widget in panel.winfo_children():
+            widget.destroy()
