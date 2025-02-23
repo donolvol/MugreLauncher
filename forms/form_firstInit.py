@@ -2,19 +2,23 @@ import tkinter as tk
 import json
 import utils.util_img as util_img
 import utils.util_window as util_window
-
-class User(tk.Toplevel):
-    
+from forms.form_master_design import masterDesign
+class User():
     def userWrite(self):
         userjson = "src/saves/user.json"
         user = self.usu.get()
         with open(userjson, "w") as f:
             json.dump(user, f)
+        self.window.destroy()
+        masterDesign()
     
-    def __init__(self) -> None:
-        super().__init__()
-        self.config_window()
-        frameUser = tk.Frame(self, width=385, height=185, padx=15, pady=15, bg="#131a21")
+    def __init__(self):
+        self.window = tk.Tk()
+        self.window.title("MugreLauncher")
+        self.window.iconbitmap("./assets/launcher.ico")
+        self.window.config(bg="BLACK")
+        self.window.resizable(0, 0)
+        frameUser = tk.Frame(self.window, width=385, height=185, padx=15, pady=15, bg="#131a21")
         
         LabelUser = tk.Label(frameUser, text="Nombre de usuario", bg="#131a21", font=("Minecraft Rus Regular", 18), fg="WHITE", anchor= "center")
  
@@ -27,23 +31,16 @@ class User(tk.Toplevel):
             else:
                 return True
 
-        valuecharacters = self.register(max_characters)
+        valuecharacters = self.window.register(max_characters)
         
         self.usu = tk.Entry(frameUser, bg="#131a21", bd=3, font=("Nunito Extralight", 15), fg="WHITE", justify="center", validate="key", validatecommand=(valuecharacters, "%P"))
 
         frameUser.pack(fill=tk.BOTH, expand=tk.TRUE, padx=15, pady=15)
-        
+        frameUser.pack(fill=tk.BOTH, expand=tk.TRUE, padx=15, pady=15)
         LabelUser.grid(row=0, column=0, padx=35, pady=8)
         
         self.usu.grid(row=1, column=0, padx=35, pady=8)
         
         self.button.grid(row=2, column=0, padx=35, pady=8)
         
-        
-    def config_window(self):
-        self.title("MugreLauncher")
-        self.iconbitmap("./assets/launcher.ico")
-        self.resizable(0, 0)
-        w, h = 400, 200
-        util_window.center_window(self, w, h)
-
+        self.window.mainloop()

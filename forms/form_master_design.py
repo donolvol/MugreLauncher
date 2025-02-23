@@ -1,12 +1,12 @@
 import tkinter as tk
+import os
 from tkinter import font
 from tkinter import ttk
 
-from src.functions.startmc import *
+from src.functions.startmc import Start, Install
 import utils.util_img as util_img
 import utils.util_window as util_window
 from forms.form_profiles import FormProfiles
-from forms.form_firstInit import User
 
 class masterDesign(tk.Tk):
     def  __init__(self):
@@ -18,6 +18,10 @@ class masterDesign(tk.Tk):
         self.settingimg = util_img.leer_imagen("./assets/img/settingimg.png", (42, 42))
         self.rosaimg = util_img.leer_imagen("./assets/img/LARO.png", (854, 480))
         self.icono = "./assets/launcher.ico"      
+        if os.path.exists("src/saves/user.json"):
+            pass
+        else:
+            pass
         self.config_window()
         self.panels()
         self.homeWidgets()
@@ -83,7 +87,7 @@ class masterDesign(tk.Tk):
             ("", self.menu, self.sidebarhideButton, self.toggle_panel, tk.TOP, tk.Y),
             ("Inicio", self.home, self.homeButton, self.homePanel, tk.TOP, tk.BOTH),
             ("Instalaciones", self.installations, self.insButton, self.InstallationsPanel, tk.TOP, tk.BOTH),
-            ("Configs", self.settingimg, self.settingButton, self.configPanel, tk.BOTTOM, tk.BOTH),
+            ("Configs", self.settingimg, self.settingButton, "", tk.BOTTOM, tk.BOTH),
 
             ("", self.home, self.homeButtonmini, "", tk.TOP, tk.BOTH),
             ("", self.installations, self.insButtonmini, "", tk.TOP, tk.BOTH),
@@ -94,6 +98,7 @@ class masterDesign(tk.Tk):
             self.config_button_menu(button, text, icon, commandButton, side, fill, ancho_menu, alto_menu)
 
     def mcStart(self):
+        Install()
         Start()
     
     def bind_hover_event(self, button):
@@ -119,9 +124,6 @@ class masterDesign(tk.Tk):
     def InstallationsPanel(self):
         self.limpiar_panel(self.body)
         FormProfiles(self.body)
-
-    def configPanel(self):
-        User(self.frameUser)
 
     def limpiar_panel(self, panel):
         for widget in panel.winfo_children():

@@ -1,0 +1,13 @@
+JarIndex-Version: 1.0
+
+lwjgl-jemalloc-natives-windows.jar
+META-INF
+META-INF/versions
+META-INF/versions/9
+jemalloc.dll
+jemalloc.dll.git
+jemalloc.dll.sha1
+jemalloc32.dll
+jemalloc32.dll.git
+jemalloc32.dll.sha1
+
